@@ -1,0 +1,75 @@
+{{!-- PF1 Save Helper — Per-target save card injected into action chat messages --}}
+<div class="psh-save-card">
+
+  {{!-- Header: save type + DC + GM bulk-roll buttons --}}
+  <div class="psh-header flexrow">
+    <span class="psh-title">{{saveTypeLabel}} Save{{#if showDC}} — DC {{dc}}{{/if}}</span>
+    {{#if isGM}}
+    <span class="psh-bulk-btns">
+      <button type="button" data-action="rollAll" class="psh-btn">Roll All</button>
+      <button type="button" data-action="rollAllNPC" class="psh-btn">Roll NPCs</button>
+    </span>
+    {{/if}}
+  </div>
+
+  {{!-- Target list --}}
+  <ul class="psh-target-list">
+    {{#each targets}}
+    <li class="psh-entry{{#if isHidden}} gm-only{{/if}}" data-uuid="{{uuid}}">
+
+      {{!-- Main row: portrait | name | bonus | roll btn | result --}}
+      <div class="psh-row{{#if hasDetails}} psh-has-details{{/if}}">
+
+        <img src="{{img}}" class="psh-portrait" alt="{{name}}" />
+
+        <span class="psh-name">{{name}}</span>
+
+        <span class="psh-bonus">{{saveBonusDisplay}}</span>
+
+        {{#if canRoll}}
+        <button type="button" class="psh-roll-btn" data-action="rollSave" data-uuid="{{uuid}}" title="Roll {{name}}'s save">
+          <img src="icons/svg/d20.svg" class="psh-d20-icon" alt="Roll" />
+        </button>
+        {{/if}}
+
+        {{#if hasResult}}
+        <div class="psh-result-area flexrow {{passClass}}">
+          <span class="psh-total">{{resultTotal}}</span>
+          <i class="fas {{passIcon}}" title="{{passIconTitle}}"></i>
+          {{#if hasDetails}}
+          <i class="fas fa-chevron-down psh-chevron"></i>
+          {{/if}}
+        </div>
+        {{#if ../isGM}}
+        <div class="psh-override-btns">
+          <button type="button" class="psh-btn-override psh-btn-pass{{#if passActive}} psh-active{{/if}}"
+            data-action="setPass" data-uuid="{{uuid}}" title="Mark Passed">✓</button>
+          <button type="button" class="psh-btn-override psh-btn-fail{{#if failActive}} psh-active{{/if}}"
+            data-action="setFail" data-uuid="{{uuid}}" title="Mark Failed">✗</button>
+        </div>
+        {{/if}}
+        {{else}}
+        <span class="psh-pending">—</span>
+        {{/if}}
+
+      </div>
+
+      {{!-- Collapsible roll details (hidden until expanded) --}}
+      {{#if hasDetails}}
+      <div class="psh-details" data-uuid="{{uuid}}"></div>
+      {{/if}}
+
+    </li>
+    {{/each}}
+  </ul>
+
+  {{!-- Footer: canvas token selection (GM only) --}}
+  {{#if isGM}}
+  <div class="psh-footer flexrow">
+    <button type="button" data-action="selectAll" class="psh-btn psh-sel-btn">Select All</button>
+    <button type="button" data-action="selectPassed" class="psh-btn psh-sel-btn">Select Passed</button>
+    <button type="button" data-action="selectFailed" class="psh-btn psh-sel-btn">Select Failed</button>
+  </div>
+  {{/if}}
+
+</div>

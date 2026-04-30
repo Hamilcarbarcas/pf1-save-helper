@@ -1,0 +1,272 @@
+/* ============================================================
+   PF1 Save Helper — Styles
+   ============================================================ */
+
+/* ---- Card Container ---- */
+
+.psh-save-card {
+  border-top: 2px groove #fff;
+  margin-top: 6px;
+  padding-top: 4px;
+  font-size: 12px;
+}
+
+/* ---- Header ---- */
+
+.psh-header {
+  align-items: center;
+  margin-bottom: 4px;
+  gap: 6px;
+}
+
+.psh-title {
+  font-weight: bold;
+  font-size: 13px;
+  color: #4b4a44;
+  flex: 1;
+}
+
+.psh-bulk-btns {
+  display: flex;
+  gap: 4px;
+}
+
+/* ---- Shared Button ---- */
+
+.psh-btn {
+  font-size: 10px;
+  padding: 1px 5px;
+  line-height: 16px;
+  border: 1px solid #999;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.psh-btn:hover {
+  border-color: #ff6400;
+  background: rgba(255, 100, 0, 0.1);
+}
+
+/* ---- Target List ---- */
+
+.psh-target-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 4px;
+}
+
+.psh-entry {
+  border-bottom: 1px solid #eee;
+}
+
+.psh-entry:last-child {
+  border-bottom: none;
+}
+
+/* ---- Target Row ---- */
+
+.psh-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 0;
+  min-height: 32px;
+}
+
+.psh-row.psh-has-details {
+  cursor: pointer;
+}
+
+.psh-row.psh-has-details:hover .psh-name {
+  text-decoration: underline;
+}
+
+.psh-portrait {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  border-radius: 2px;
+  border: 1px solid #999;
+  object-fit: contain;
+  background: #0001;
+}
+
+.psh-name {
+  flex: 1;
+  font-weight: bold;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.psh-bonus {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: #555;
+  min-width: 26px;
+  text-align: right;
+}
+
+/* ---- Roll Button ---- */
+
+.psh-roll-btn {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.psh-d20-icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.55;
+  transform: rotate(180deg);
+  transition: all 0.15s;
+  filter: brightness(0);
+}
+
+.psh-roll-btn:hover .psh-d20-icon {
+  opacity: 1;
+  transform: none;
+  filter: brightness(0.5) sepia(1) saturate(5) hue-rotate(-10deg);
+}
+
+/* ---- Result Area ---- */
+
+.psh-result-area {
+  flex: 0 0 auto;
+  gap: 3px;
+  align-items: center;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.psh-total {
+  min-width: 20px;
+  text-align: right;
+}
+
+.psh-pending {
+  flex: 0 0 auto;
+  color: #aaa;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.psh-chevron {
+  font-size: 9px;
+  color: #999;
+  margin-left: 2px;
+  transition: transform 0.15s;
+}
+
+/* Pass / Fail Colors */
+
+.psh-pass {
+  color: #468847;
+}
+
+.psh-fail {
+  color: #b94a48;
+}
+
+/* ---- Override Buttons ---- */
+
+.psh-override-btns {
+  display: flex;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.psh-btn-override {
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  line-height: 16px;
+  padding: 0;
+  text-align: center;
+  border: 1px solid #aaa;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  color: #555;
+}
+
+.psh-btn-override:hover {
+  border-color: #ff6400;
+}
+
+.psh-btn-pass.psh-active {
+  background: rgba(70, 136, 71, 0.25);
+  border-color: #468847;
+  color: #468847;
+  font-weight: bold;
+}
+
+.psh-btn-fail.psh-active {
+  background: rgba(185, 74, 72, 0.25);
+  border-color: #b94a48;
+  color: #b94a48;
+  font-weight: bold;
+}
+
+/* ---- Collapsible Roll Details ---- */
+
+.psh-details {
+  display: none;
+  padding: 2px 0 2px 28px;
+  width: 100%;
+}
+
+.psh-entry.psh-expanded .psh-details {
+  display: block;
+}
+
+.psh-details .dice-roll {
+  width: 100%;
+  cursor: default;
+}
+
+.psh-details .dice-roll .dice-tooltip {
+  display: grid !important;
+  grid-template-rows: 1fr !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  max-height: none !important;
+  position: relative !important;
+}
+
+.psh-details .dice-roll .dice-tooltip > .wrapper {
+  overflow: visible !important;
+}
+
+.psh-details .dice-roll .dice-total {
+  display: none;
+}
+
+.psh-details .dice-roll .dice-formula {
+  font-size: 11px;
+  line-height: 20px;
+}
+
+/* ---- Footer: Select Buttons ---- */
+
+.psh-footer {
+  border-top: 1px solid #ccc;
+  padding-top: 4px;
+  gap: 4px;
+  justify-content: flex-start;
+}
+
+.psh-sel-btn {
+  flex: 1;
+  text-align: center;
+}

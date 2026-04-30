@@ -1,0 +1,33 @@
+{
+  "id": "pf1-save-helper",
+  "title": "PF1 Save Helper",
+  "description": "<p>Augments PF1 action chat messages with a per-target saving throw UI.</p>",
+  "authors": [
+    {
+      "name": "Patrick",
+      "flags": {}
+    }
+  ],
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "socket": true,
+  "esmodules": [
+    "scripts/pf1-save-helper.mjs"
+  ],
+  "styles": [
+    "styles/save-helper.css"
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "pf1",
+        "type": "system",
+        "compatibility": { "minimum": "11" }
+      }
+    ]
+  },
+  "flags": {}
+}
