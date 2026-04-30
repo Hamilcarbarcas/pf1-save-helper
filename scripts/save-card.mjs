@@ -100,9 +100,14 @@ export class SaveCard {
       card.querySelectorAll(".gm-only").forEach(el => el.remove());
     }
 
-    // Append to the message HTML
-    const wrapper = html.querySelector?.(".message-content") ?? html;
-    wrapper.appendChild(card);
+    // Replace the existing PF1 targets section, or fall back to appending
+    const existingTargets = html.querySelector?.(".attack-targets");
+    if (existingTargets) {
+      existingTargets.replaceWith(card);
+    } else {
+      const wrapper = html.querySelector?.(".message-content") ?? html;
+      wrapper.appendChild(card);
+    }
 
     // Fill roll detail slots async (HTML already in DOM by this point)
     SaveCard._renderRollDetails(card, targets, results);
@@ -144,7 +149,7 @@ export class SaveCard {
         const uuid = btn.dataset.uuid;
         const target = targets.find(t => t.uuid === uuid);
         if (!target) return;
-        await SaveCard._rollSave(message, uuid, saveType, dc, target.isHidden);
+        await SaveCard._rollSave(message, uuid, saveType, dc);
       });
     });
 
@@ -155,7 +160,7 @@ export class SaveCard {
       for (const target of targets) {
         const current = message.getFlag(FLAG_SCOPE, FLAG_KEY) ?? {};
         if (current[target.uuid] !== undefined) continue;
-        await SaveCard._rollSave(message, target.uuid, saveType, dc, target.isHidden);
+        await SaveCard._rollSave(message, target.uuid, saveType, dc);
       }
     });
 
@@ -166,7 +171,7 @@ export class SaveCard {
       for (const target of targets.filter(t => t.isNPC)) {
         const current = message.getFlag(FLAG_SCOPE, FLAG_KEY) ?? {};
         if (current[target.uuid] !== undefined) continue;
-        await SaveCard._rollSave(message, target.uuid, saveType, dc, target.isHidden);
+        await SaveCard._rollSave(message, target.uuid, saveType, dc);
       }
     });
 
@@ -236,22 +241,28 @@ export class SaveCard {
   // Roll a saving throw for one token
   // ----------------------------------------------------------
 
-  static async _rollSave(message, tokenUUID, saveType, dc, isHidden) {
+  static async _rollSave(message, tokenUUID, saveType, dc) {
     const tokenDoc = fromUuidSync(tokenUUID);
     if (!tokenDoc) return;
     const actor = tokenDoc.actor;
     if (!actor?.isOwner) return;
 
-    const rollMode = isHidden ? "gmroll" : "roll";
-
-    const resultMsg = await actor.rollSavingThrow(saveType, {
-      skipDialog: true,
-      rollMode,
+    const msg = await actor.rollSavingThrow(saveType, {
+      skipDialog: false,
+      chatMessage: false,
       token: tokenDoc,
     });
-    if (!resultMsg) return;
+    if (!msg) return; // null = user cancelled dialog
 
-    const roll = resultMsg.rolls?.[0];
+    // PF1 returns message data when chatMessage: false
+    let roll = null;
+    if (msg.rolls?.length) {
+      const r = msg.rolls[0];
+      if (r instanceof Roll) roll = r;
+      else if (typeof r === "string") roll = Roll.fromJSON(r);
+      else if (typeof r === "object") roll = Roll.fromData(r);
+    }
+    if (!roll && msg instanceof Roll) roll = msg;
     if (!roll) return;
 
     const total = roll.total;
